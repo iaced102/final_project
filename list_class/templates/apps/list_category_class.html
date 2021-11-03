@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'css/body/home.css' %}">
+    <link rel='stylesheet' href="{% static 'css/body/home-style.css' %}">
+{% endblock %}
+{% static 'image/description_course' as BaseUrls %}
+{% block body %}
+    <div style='margin-top: 180px' class='container'>
+        <h1>Tìm khóa học mong muốn của bạn</h1>
+        {% include 'base/list_category_class.html' %}
+    </div>
+    
+{% endblock %}

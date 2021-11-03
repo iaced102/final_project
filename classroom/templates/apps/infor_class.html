@@ -1,0 +1,81 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'css/body/home.css' %}">
+    <link rel='stylesheet' href="{% static 'css/body/home-style.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class='container' style='margin-top:120px'>
+        <p>{{ classroom.name }}</p>
+        {% if classroom.teacher.name %}
+            <p>{{ classroom.teacher.name }}</p>
+        {% else %}
+            <p style='margin-left: 20px; opacity: 0.5'>chưa phân giảng viên!</p>
+        {% endif %}
+        <p>{{ classroom.type }}</p>
+        <p>{{ classroom.type.description }}</p>
+        <p>Lịch hoạt động dự kiến:<b style='margin-left:120px'>{{ classroom.expected_active }}</b></p>
+        <p style='margin-top: 80px'>thời khóa biểu dự kiến:</p>
+        <div class='container'>
+        <table class="table container">
+            <thead>
+                <tr>
+                    <th scope="col">Ngày:</th>
+                    <th scope="col">Giờ:</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for day in classroom.schedule.all %}
+                <tr>
+                    <td>{{ day.weekday_session }}</td>
+                    <td>{{ day.time }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <p>Học phí:<b style='margin-left:120px'>{{ classroom.type.price }}đ</b></p>
+        <button onclick="register_class()">đăng kí nhập học</button>
+        
+    
+    <h3 style='margin-top: 120px'>Tìm hiểu các khóa học khác!</h3>
+    <div class='container'>
+        {% include 'base/list_category_class.html' %}
+    </div>
+    </div>
+    <script>
+        
+        function register_class()
+            {
+                if('{{ request.user.is_authenticated }}'=='False')
+                    {
+                        alert("Bạn cần đăng nhập để đăng kí vào lớp học");
+                        window.location.replace("{% url 'login' %}");
+                    }
+                else
+                    {
+                        $.ajax({
+                            url: "{% url 'join_to_class' %}",
+                            method: "POST",
+                            data: {
+                                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                                'class': '{{classroom.id}}'
+                                },
+                            success: function(result){
+                                if(result === 'success')
+                                    {
+                                        alert('đăng kí thành công')
+                                        //window.location.replace("{% url 'home' %}");
+                                    }
+                                else
+                                    {
+                                        alert('bạn đã ở trong lớp này rồi')
+                                        //window.location.replace("{% url 'home' %}");
+                                    }
+                            }
+                        })           
+                    }
+        }
+    </script>
+{% endblock %}

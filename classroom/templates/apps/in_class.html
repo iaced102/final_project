@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class='container' style='margin-top:180px'>
+        <h2>{{ class.name }}</h2>
+        <p>type: {{ class.type }}</p>
+        <p>Giảng viên: {{ class.teacher }}</p>
+        {% for session in class.sessions.all %}
+                <div class="card">
+                    <a href="{% url 'in_session' id=session.id %}">
+                        <h5 class="card-header">{{ session.name}}</h5>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ session.date|date:'d-m-Y' }}</h5>
+                        <p class="card-text">{{ session.time }}</p>
+                        {% if session.date == today %}
+                            <a href="{{ session.link_zoom }}" class="btn btn-outline-primary"><img style='width: 32px; margin-right: 5px' src="/static/image/logo/zoom-icon-logo.svg">tham gia ngay</a>
+                        {% endif %}
+                    </div>
+                </div>
+            
+        {% endfor %}
+    </div>
+{% endblock body %}

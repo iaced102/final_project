@@ -1,0 +1,45 @@
+{% load static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'css/body/home.css' %}">
+    <link rel='stylesheet' href="{% static 'css/body/home-style.css' %}">
+{% endblock %}
+<hr>
+    <div class='container'>
+        <h3>Các khóa học hiện có của chúng tôi!</h3>
+        <ul class='row d-flex justify-content-center'  style='list-style-type: none'>
+            {% for course in list_category_class %}
+                <li style='margin-right:55px'>
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" style='width: auto !importain;height: 180px' src="/{{course.description_image}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.type }}</h5>
+                            <p class="card-text">Học phí: {{ course.price }}đ</p>
+                            <a href="{% url 'list_class_catgory' type=course.type  %}" class="btn btn-primary">Tìm hiểu ngay</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <hr>
+
+    <div class='container'>
+        <h3>đăng kí ngay!</h3>
+        <p>Đây là các lớp học đang chờ mở, bạn có thể tham gia ngay</p>
+        <ul class='row d-flex justify-content-center'  style='list-style-type: none'>
+
+                {% for class in list_classroom %}
+                    <li style='margin-right:55px'>
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" style='width: auto !importain;height: 180px' src="/{{ class.type.description_image }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ class.name }}</h5>
+                                <p class="card-text">{{ class.type }}</p>
+                                <p class="card-text">Mở vào: {{ class.expected_active }}</p>
+                                <a href="{% url 'infor_class' pk=class.id %}" class="btn btn-primary">Đăng kí ngay</a>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+        </ul>
+    </div>

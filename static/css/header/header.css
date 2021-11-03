@@ -1,0 +1,12 @@
+.header-logo
+    {
+        height: 85px;
+    }
+.custom-header-navbar
+    {
+        padding: 0.5rem 25px !important;
+    }
+.search-bar
+    {
+        margin-left: 25px
+    }

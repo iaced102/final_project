@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'css/body/home.css' %}">
+    <link rel='stylesheet' href="{% static 'css/body/home-style.css' %}">
+{% endblock %}
+{% block body %}
+    <div class="context">
+        <h1>website quản lý học viên, sinh viên</h1>
+    </div>
+
+    <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    </div >
+    <div class='container introduction-about-web' id='introduction'>
+        <h3>sản phẩm này là giải pháp dành cho các trung tâm trong việc dạy online</h3>
+        <div>
+            <ul class='ul-introduction-about-web'>
+                <li><i class="fas fa-location-arrow"></i>tự động tạo phòng họp zoom</li>
+                <li><i class="fas fa-location-arrow"></i>dễ dàng tạo lịch học</li>
+                <li><i class="fas fa-location-arrow"></i>hỗ trợ học viên quản lý thời khóa biểu</li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class='container'>
+        {% include 'base/list_category_class.html'%}
+    </div>
+<!-- DKC2 - Bramble Blast  -->
+
+{% endblock %}

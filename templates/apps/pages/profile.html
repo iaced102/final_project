@@ -1,0 +1,247 @@
+
+{% extends 'base/base.html' %}
+
+{% block body %}
+    <div class='container' style='margin-top:180px'>
+
+        {% if list_class_of_user_is_not_complete|length == 0 and list_class_of_user_is_complete|length == 0 %}
+            <h2>hiện tại bạn chưa tham gia khóa học nào</h2>
+            <a href="{% url 'list_courses' %}">Tham gia ngay!</a>
+        {% else %}
+            <h2>Các khóa học của bạn:</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">tên lớp</th>
+                    <th scope="col">type</th>
+                    <th scope="col">Giảng viên</th>
+                    <th scope="col">Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for class in list_class_of_user_is_complete %}
+                        <tr>
+                            <td>{{ class.to_class.name }}</td>
+                            <td>{{ class.to_class.type }}</td>
+                            <td>{{ class.to_class.teacher }}</td>
+                            {% if class.to_class.is_complete == True %}
+                                <td><i title='Đã hoàn thành!' style='color: green' class="fas fa-check-circle"></i></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    {% for class in list_class_of_user_is_not_complete %}
+                        <tr>
+                            <td>{{ class.to_class.name }}</td>
+                            <td>{{ class.to_class.type }}</td>
+                            
+                            {% if class.to_class.teacher == None %}
+                                <td>chưa phân giảng viên</td>
+                            {% else %}
+                                <td>{{ class.to_class.teacher }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if list_class_of_user_is_not_complete|length != 0 %}
+                <h2>Thời khóa biểu:</h2>
+                <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr class="bg-light-gray">
+                                <th class="text-uppercase">Time
+                                </th>
+                                <th class="text-uppercase">Monday</th>
+                                <th class="text-uppercase">Tuesday</th>
+                                <th class="text-uppercase">Wednesday</th>
+                                <th class="text-uppercase">Thursday</th>
+                                <th class="text-uppercase">Friday</th>
+                                <th class="text-uppercase">Saturday</th>
+                            </tr>
+                        </thead>
+                        <tbody id='body_schedule'>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">sáng</td>
+                                <td id='morning-monday'>
+                                    
+                                </td>
+                                <td id='morning-tuesday'>
+                                    
+                                </td>
+
+                                <td id='morning-wednesday'>
+                                    
+                                </td>
+                                <td id='morning-thursday'>
+                                    
+                                </td>
+                                <td id='morning-friday'>
+                                    
+                                </td>
+                                <td id='morning-saturday'>
+                                    
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="align-middle">chiều</td>
+                                <td id='afternoon-monday'>
+                                    
+                                </td>
+                                <td id='afternoon-tuesday'>
+                                    
+                                </td>
+
+                                <td id='afternoon-wednesday'>
+                                    
+                                </td>
+                                <td id='afternoon-thursday'>
+                                    
+                                </td>
+                                <td id='afternoon-friday'>
+                                    
+                                </td>
+                                <td id='afternoon-saturday'>
+                                    
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="align-middle">tối</td>
+                                <td id='night-monday'>
+                                    
+                                </td>
+                                <td id='night-tuesday'>
+                                    
+                                </td>
+
+                                <td id='night-wednesday'>
+                                    
+                                </td>
+                                <td id='night-thursday'>
+                                    
+                                </td>
+                                <td id='night-friday'>
+                                    
+                                </td>
+                                <td id='night-saturday'>
+                                    
+                                </td>
+                            </tr>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% for day in schedule %}
+                        {% if day.3 == 0 %}
+                            <script>
+                                if("{{ day.2 }}".slice(0,2) >= 7 && "{{ day.2 }}".slice(0,2) <= 12)
+                                    {
+                                        
+                                        $("#morning-monday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 12 && "{{ day.2 }}".slice(0,2) <= 17)
+                                    {
+                                        $("#afternoon-monday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 17)
+                                    {
+                                        console.log('toi')
+                                        $("#night-monday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                            </script>
+                        {% endif %}
+                        {% if day.3 == 1 %}
+                            <script>
+                                if("{{ day.2 }}".slice(0,2) >= 7 && "{{ day.2 }}".slice(0,2) <= 12)
+                                    {
+                                        $("#morning-tuesday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 12 && "{{ day.2 }}".slice(0,2) <= 17)
+                                    {
+                                        $("#afternoon-tuesday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 17)
+                                    {
+                                        console.log('toi')
+                                        $("#night-tuesday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                            </script>
+                        {% endif %}
+                        {% if day.3 == 2 %}
+                            <script>
+                                if("{{ day.2 }}".slice(0,2) >= 7 && "{{ day.2 }}".slice(0,2) <= 12)
+                                    {
+                                        $("#morning-wednesday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 12 && "{{ day.2 }}".slice(0,2) <= 17)
+                                    {
+                                        $("#afternoon-wednesday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 17)
+                                    {
+                                        console.log('toi')
+                                        $("#night-wednesday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                            </script>
+                        {% endif %}
+                        {% if day.3 == 3 %}
+                            <script>
+                                if("{{ day.2 }}".slice(0,2) >= 7 && "{{ day.2 }}".slice(0,2) <= 12)
+                                    {
+                                        $("#morning-thursday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 12 && "{{ day.2 }}".slice(0,2) <= 17)
+                                    {
+                                        $("#afternoon-thursday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 17)
+                                    {
+                                        console.log('toi')
+                                        $("#night-thursday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                            </script>
+                        {% endif %}
+                        {% if day.3 == 4 %}
+                            <script>
+                                if("{{ day.2 }}".slice(0,2) >= 7 && "{{ day.2 }}".slice(0,2) <= 12)
+                                    {
+                                        $("#morning-friday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 12 && "{{ day.2 }}".slice(0,2) <= 17)
+                                    {
+                                        $("#afternoon-friday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 17)
+                                    {
+                                        console.log('toi')
+                                        $("#night-friday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                            </script>
+                        {% endif %}
+                        {% if day.3 == 5 %}
+                            <script>
+                                if("{{ day.2 }}".slice(0,2) >= 7 && "{{ day.2 }}".slice(0,2) <= 12)
+                                    {
+                                        $("#morning-saturday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 12 && "{{ day.2 }}".slice(0,2) <= 17)
+                                    {
+                                        $("#afternoon-saturday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                                if("{{ day.2 }}".slice(0,2) > 17)
+                                    {
+                                        console.log('toi')
+                                        $("#night-saturday").append('<strong>{{ day.0.to_class }}</strong><p>{{ day.2 }}</p> <a href="{% url "to_classroom" pk=day.0.to_class.id %}" type="button" class="btn btn-info">tham gia</a><hr/>')
+                                    }
+                            </script>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

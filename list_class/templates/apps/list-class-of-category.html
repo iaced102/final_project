@@ -1,0 +1,38 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block body %}
+    <div class='container' style='margin-top: 180px'>
+        <img class="mw-100" src='/{{ detail_category.description_image }}'>
+        <h2 class='mt-5'>Khóa học: {{ detail_category.type }}</h2>
+        <p class='pl-3'>Học phí: {{ detail_category.price }}</p>
+        <p>Mô tả sơ bộ: {{ detail_category.description }}</p>
+        {% if list_class_of_category.count == 0 %}
+            Hiện tại không có lớp {{ detail_category.type }} nào đang mở
+            <p>(liên hệ mở lớp ngay: lightvhp@gmail.com)</p>
+        {% else %}
+            <div class='container'>
+                <h3>đăng kí ngay!</h2>
+                <p>Đây là các lớp học đang chờ mở, bạn có thể tham gia ngay</p>
+                <ul class='row d-flex justify-content-center'  style='list-style-type: none'>
+                        {% for class in list_class_of_category %}
+                            <li style='margin-right:55px'>
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="/{{ class.type.description_image }}" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ class.name }}</h5>
+                                        <p class="card-text">{{ class.type }}</p>
+                                        <p class="card-text">Mở vào: {{ class.expected_active }}</p>
+                                        <a href="{% url 'infor_class' pk=class.id %}" class="btn btn-primary">Đăng kí ngay</a>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                </ul>
+            </div>
+        
+        {% endif %}
+        <h2>tìm hiểu thêm các khóa học khác </h2>
+
+        
+        {% include "base/list_category_class.html" %}
+{% endblock body %}

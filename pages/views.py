@@ -21,8 +21,9 @@ def HomePage(request):
 def Profile_User(request, username):
     context = {}
     list_class_of_user_is_not_complete = Q(student__username = username)
+    print(username)
     list_class_of_user_is_not_complete.add(Q(to_class__is_complete = False), Q.AND)
-    context['list_class_of_user_is_not_complete'] = Link_Students_to_Students.objects.filter(list_class_of_user_is_not_complete)
+    context['list_class_of_user_is_not_complete'] = Link_Students_to_Students.objects.filter(student__username = 'admin')
     list_class_of_user_is_complete = Q(student__username = username)
     list_class_of_user_is_complete.add(Q(to_class__is_complete = True), Q.AND)
     context['list_class_of_user_is_complete'] =Link_Students_to_Students.objects.filter(list_class_of_user_is_complete)
@@ -34,6 +35,8 @@ def Profile_User(request, username):
                 list_day_session.append([Class, session.date, session.time]) 
         weekday=[]
         for i in list_day_session:
+            print(today.weekday())
+            print(i[1])
             if i[1] >= today - timedelta(days=today.weekday()) and i[1] <= today - timedelta(days=today.weekday()) + timedelta(days=6):
                 weekday.append([i[0],str(i[1]),str(i[2]),i[1].weekday()])
         context['schedule'] = weekday

@@ -26,3 +26,5 @@ def List_Class_of_Category(request,type):
     context['list_category_class']= Category_Class.objects.all()
     context['list_classroom'] = ClassRoom.objects.filter(is_active=False)
     return render(request, 'apps/list-class-of-category.html', context)
+
+

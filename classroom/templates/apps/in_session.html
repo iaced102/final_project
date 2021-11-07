@@ -18,10 +18,25 @@
                         <th>
                             
                         </th>
-                        <td><a href="{{ session.link_zoom }}" class="btn btn-outline-primary"><img style='width: 32px; margin-right: 5px' src="/static/image/logo/zoom-icon-logo.svg">tham gia ngay</a></td>
+                        <td><a target='_blank' onclick='attendance()' href="{{ session.link_zoom }}" class="btn btn-outline-primary" target="_blank" ><img style='width: 32px; margin-right: 5px' src="/static/image/logo/zoom-icon-logo.svg">tham gia ngay</a></td>
                     </tr>
                 {% endif %}
             </tbody>
         </table>
     </div>
+    <script>
+        function attendance()
+            {
+                console.log('attendance')
+                $.ajax({
+                    url: "{% url 'attendance' %}",
+                    method: "POST",
+                    data: {
+                        'csrfmiddlewaretoken':'{{ csrf_token }}',
+                        'session': "{{ session.id }}",
+                        'user':"{{ request.user.id }}"
+                    }
+                })
+            }
+    </script>
 {% endblock body %}

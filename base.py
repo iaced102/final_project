@@ -97,7 +97,7 @@ def auto_create_sessions(classroom):
 		'Thursday':3,
 		'Friday':4,
 		'Saturday':5,
-		'Saturday':6
+		'Sunday':6
 	}
 	for a in classroom.schedule.all():
 		while time_1.weekday() != choice_weekday[a.weekday_session]:

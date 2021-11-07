@@ -1,10 +1,9 @@
-from django.db.models import base
 from django.db.models.fields import DateField
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.db.models import Q, query
 from .models import ClassRoom, Link_Students_to_Students
 from students.models import Student
 from list_class.models import Category_Class
@@ -57,3 +56,14 @@ def in_session(request, id):
     context['session'] = Session.objects.get(id=id)
     context['today'] = datetime.datetime.today().date
     return render(request, 'apps/in_session.html', context)
+
+def attendace(request):
+    if request.method == 'POST':
+        Class = ClassRoom.objects.get(sessions__id = request.POST['session'])
+        print(Class)
+        qurey = Q(student__id=request.POST["user"])
+        qurey.add(Q(to_class=Class), Q.AND)
+        session = Session.objects.get(id=request.POST['session'])
+        attendace = Link_Students_to_Students.objects.get(qurey)
+        attendace.attendance.add(session)
+        return HttpResponse('a')

@@ -55,8 +55,9 @@ class ClassRoom(models.Model):
 class Link_Students_to_Students(models.Model):
     student     = models.ForeignKey(User, on_delete=models.CASCADE)
     to_class    = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    attendance  = models.ManyToManyField(Session)
     def __str__(self):
-        return self.student.username
+        return str(self.student) + ' to ' + str(self.to_class)
 
 
 

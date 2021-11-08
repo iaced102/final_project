@@ -40,5 +40,7 @@ def Profile_User(request, username):
             if i[1] >= today - timedelta(days=today.weekday()) and i[1] <= today - timedelta(days=today.weekday()) + timedelta(days=6):
                 weekday.append([i[0],str(i[1]),str(i[2]),i[1].weekday()])
         context['schedule'] = weekday
+        print(len(list_day_session))
+        print(list_day_session)
         print(weekday)
     return render(request, 'apps/pages/profile.html', context=context)
